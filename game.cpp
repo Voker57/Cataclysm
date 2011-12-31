@@ -3849,6 +3849,8 @@ point game::look_around()
    mvwputch(w_terrain, ly - u.posy + SEEY, lx - u.posx + SEEX, c_white, 'x');
    mvwprintw(w_look, 1, 1, "Unseen.");
   }
+  if (m.graffiti_at(lx, ly).contents)
+   mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
  } while (ch != ' ' && ch != KEY_ESCAPE && ch != '\n');

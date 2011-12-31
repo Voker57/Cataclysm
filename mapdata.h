@@ -9,6 +9,7 @@
 #include "monster.h"
 #include "enums.h"
 #include "computer.h"
+#include "graffiti.h"
 
 class game;
 class monster;
@@ -597,6 +598,7 @@ struct submap {
  field			fld[SEEX][SEEY]; // Field on each square
  int			rad[SEEX][SEEY]; // Irradiation of each square
  int active_item_count;
+ graffiti	graf[SEEX][SEEY]; // Graffiti on each square
  int field_count;
  std::vector<spawn_point> spawns;
  computer comp;

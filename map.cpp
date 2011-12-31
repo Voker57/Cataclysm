@@ -1058,6 +1058,18 @@ void map::remove_field(int x, int y)
  grid[nonant].fld[x][y] = field();
 }
 
+bool map::add_graffiti(game *g, int x, int y, std::string contents)
+{
+ int nx = x;
+ int ny = y;
+ int nonant = int(nx / SEEX) + int(ny / SEEY) * my_MAPSIZE();
+ nx %= SEEX;
+ ny %= SEEY;
+ grid[nonant].graf[nx][ny] = graffiti(contents);
+ return true;
+}
+
+
 computer* map::computer_at(int x, int y)
 {
  if (!INBOUNDS(x, y))
@@ -1073,6 +1085,21 @@ computer* map::computer_at(int x, int y)
  if (grid[nonant].comp.name == "")
   return NULL;
  return &(grid[nonant].comp);
+}
+
+graffiti map::graffiti_at(int x, int y)
+{
+ if (!inbounds(x, y))
+  return graffiti();
+/*
+ int nonant;
+ cast_to_nonant(x, y, nonant);
+*/
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+
+ x %= SEEX;
+ y %= SEEY;
+ return grid[nonant].graf[x][y];
 }
 
 void map::debug()
@@ -1121,6 +1148,7 @@ void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
  nc_color tercol;
  char sym = terlist[ter(x, y)].sym;
  bool hi = false;
+ bool graf = false;
  if (u.has_disease(DI_BOOMERED))
   tercol = c_magenta;
  else if ((u.is_wearing(itm_goggles_nv) && u.has_active_item(itm_UPS_on)) ||
@@ -1170,10 +1198,15 @@ void map::drawsq(WINDOW* w, player &u, int x, int y, bool invert,
    sym = i_at(x, y)[i_at(x, y).size() - 1].symbol();
   }
  }
+// If there's graffiti here, change background color
+ if(graffiti_at(x,y).contents)
+  graf = true;
  if (invert)
   mvwputch_inv(w, j, k, tercol, sym);
  else if (hi)
   mvwputch_hi (w, j, k, tercol, sym);
+ else if (graf)
+  mvwputch    (w, j, k, red_background(tercol), sym);
  else
   mvwputch    (w, j, k, tercol, sym);
 }
@@ -1609,6 +1642,13 @@ void map::saven(overmap *om, unsigned int turn, int worldx, int worldy,
 // Output the computer
  if (grid[n].comp.name != "")
   fout << "c " << grid[n].comp.save_data() << std::endl;
+// Output the graffiti
+ for (int j = 0; j < SEEY; j++) {
+  for (int i = 0; i < SEEX; i++) {
+   if (grid[n].graf[i][j].contents)
+    fout << "G " << i << " " << j << *grid[n].graf[i][j].contents << std::endl;
+  }
+ }
 // Close the file; that's all we need.
  fout.close();
 }
@@ -1706,6 +1746,12 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
    } else if (!mapin.eof() && ch == 'c') {
     getline(mapin, databuff);
     grid[gridn].comp.load_data(databuff);
+   } else if (!mapin.eof() && ch == 'G') {
+    std::string s;
+    int j;
+    int i;
+    mapin >> j >> i >> s;
+    grid[gridn].graf[j][i] = graffiti(s);
    }
   }
   mapin.close();
