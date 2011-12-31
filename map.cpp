@@ -1750,7 +1750,8 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
     std::string s;
     int j;
     int i;
-    mapin >> j >> i >> s;
+    mapin >> j >> i;
+    getline(mapin,s);
     grid[gridn].graf[j][i] = graffiti(s);
    }
   }
