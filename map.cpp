@@ -46,6 +46,7 @@ map::map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
    for (int y = 0; y < SEEY; y++) {
     grid[n].trp[x][y] = tr_null;
     grid[n].rad[x][y] = 0;
+    grid[n].graf[x][y] = graffiti();
    }
   }
  }
@@ -1694,6 +1695,7 @@ bool map::loadn(game *g, int worldx, int worldy, int gridx, int gridy)
     grid[gridn].itm[i][j].clear();
     grid[gridn].trp[i][j] = tr_null;
     grid[gridn].fld[i][j] = field();
+    grid[gridn].graf[i][j] = graffiti();
    }
   }
 // Load irradiation
@@ -1799,6 +1801,7 @@ void map::copy_grid(int to, int from)
    grid[to].rad[x][y] = grid[from].rad[x][y];
    grid[to].active_item_count = grid[from].active_item_count;
    grid[to].field_count = grid[from].field_count;
+   grid[to].graf[x][y] = grid[from].graf[x][y];
   }
  }
 
@@ -1881,6 +1884,7 @@ tinymap::tinymap(std::vector<itype*> *itptr,
    for (int y = 0; y < SEEY; y++) {
     grid[n].trp[x][y] = tr_null;
     grid[n].rad[x][y] = 0;
+    grid[n].graf[x][y] = graffiti();
    }
   }
  }
