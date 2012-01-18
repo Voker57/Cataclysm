@@ -2349,7 +2349,7 @@ void iuse::spray_can(game *g, player *p, item *it, bool t)
 {
  std::string message = string_input_popup("Spray what?");
  if(g->m.add_graffiti(g, p->posx, p->posy, message))
-  g->add_msg("You spray a message on the ground, %dx%d", p->posx, p->posy);
+  g->add_msg("You spray a message on the ground.");
  else
   g->add_msg("You fail to spray a message here.");
 }
