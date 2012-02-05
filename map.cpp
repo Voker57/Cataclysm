@@ -1063,7 +1063,7 @@ bool map::add_graffiti(game *g, int x, int y, std::string contents)
 {
  int nx = x;
  int ny = y;
- int nonant = int(nx / SEEX) + int(ny / SEEY) * my_MAPSIZE();
+ int nonant = int(nx / SEEX) + int(ny / SEEY) * my_MAPSIZE;
  nx %= SEEX;
  ny %= SEEY;
  grid[nonant].graf[nx][ny] = graffiti(contents);
@@ -1096,7 +1096,7 @@ graffiti map::graffiti_at(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE();
+ int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  x %= SEEX;
  y %= SEEY;
