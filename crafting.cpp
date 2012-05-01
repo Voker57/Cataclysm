@@ -262,7 +262,7 @@ RECIPE(itm_c4, CC_WEAPON, sk_mechanics, sk_electronics, 4, 8000);
 
  RECIPE(itm_water_boiled, CC_DRINK, sk_cooking, sk_null, 0, 5000);
   TOOL(itm_pot, -1, NULL);
-  TOOL(itm_fire, -1, NULL);
+  TOOL(itm_hotplate, 2, itm_toolset, 1, itm_fire, -1, NULL);
   TOOL(itm_bottle_plastic, -1, NULL);
   COMP(itm_water, 2, NULL);
 
